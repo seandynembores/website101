@@ -1,72 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Astronomy: Exploring the Universe</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IQ Test</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #000;
-      color: #fff;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-    }
-    header, footer {
-      background-color: #111;
+      background: #f0f0f0;
       padding: 20px;
+    }
+    h1 {
       text-align: center;
     }
-    main {
-      padding: 20px;
+    #quiz, #result {
+      display: none;
+      margin-top: 20px;
     }
-    section {
-      margin-bottom: 40px;
+    .question {
+      margin-bottom: 20px;
     }
-    h1, h2 {
-      color: #00bfff;
+    .question h3 {
+      margin-bottom: 10px;
     }
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 10px;
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #startBtn, #submitBtn {
+      display: block;
+      margin: 20px auto;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Astronomy: Exploring the Universe</h1>
-    <p>Discover the wonders of space</p>
-  </header>
 
-  <main>
-    <section id="solar-system">
-      <h2>The Solar System</h2>
-      <p>The Solar System consists of the Sun and all the objects that orbit it, including eight planets, their moons, dwarf planets, comets, and asteroids. The main planets in order are:</p>
-      <ul>
-        <li>Mercury</li>
-        <li>Venus</li>
-        <li>Earth</li>
-        <li>Mars</li>
-        <li>Jupiter</li>
-        <li>Saturn</li>
-        <li>Uranus</li>
-        <li>Neptune</li>
-      </ul>
-      <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Solar_sys8.jpg" alt="The Solar System">
-    </section>
+  <h1>IQ Test</h1>
+  <button id="startBtn">Start Quiz</button>
 
-    <section id="milky-way">
-      <h2>The Milky Way Galaxy</h2>
-      <p>The Milky Way is the galaxy that contains our Solar System. It's a barred spiral galaxy with hundreds of billions of stars. Our solar system is located in one of its outer spiral arms, called the Orion Arm.</p>
-      <p>It appears as a milky band of light in the night sky because of the many stars packed so closely together.</p>
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Milky_Way_Infrared_Spitzer.jpg" alt="The Milky Way Galaxy">
-    </section>
-  </main>
+  <form id="quiz">
+    <!-- Questions will be inserted here by JavaScript -->
+    <div id="questionsContainer"></div>
+    <button type="submit" id="submitBtn">Submit Answers</button>
+  </form>
 
-  <footer>
-    <p>&copy; 2025 Astronomy Website. All rights reserved.</p>
-  </footer>
+  <div id="result"></div>
+
+  <script>
+    const questions = [
+      { q: "What comes next in the sequence: 2, 4, 8, 16, ?", options: ["18", "32", "20", "24"], answer: "32" },
+      { q: "Which is the odd one out? Apple, Banana, Carrot, Mango", options: ["Apple", "Banana", "Carrot", "Mango"], answer: "Carrot" },
+      { q: "Which number is smallest? 0.5, 0.05, 0.005, 5", options: ["0.5", "0.05", "0.005", "5"], answer: "0.005" },
+      { q: "Which letter comes next: A, C, F, J, O, ?", options: ["T", "U", "V", "Q"], answer: "U" },
+      { q: "5 + 3 × 2 = ?", options: ["11", "16", "13", "10"], answer: "11" },
+      { q: "If all bloops are razzies and all razzies are lazzies, are all bloops definitely lazzies?", options: ["Yes", "No", "Maybe", "Impossible"], answer: "Yes" },
+      { q: "What comes next: Monday, Thursday, Sunday, Wednesday, ?", options: ["Saturday", "Tuesday", "Friday", "Monday"], answer: "Saturday" },
+      { q: "Which shape has three sides?", options: ["Square", "Triangle", "Circle", "Hexagon"], answer: "Triangle" },
+      { q: "What is 144 divided by 12?", options: ["10", "12", "14", "16"], answer: "12" },
+      { q: "If it takes 2 people 2 hours to paint a wall, how long will it take 4 people?", options: ["1 hour", "2 hours", "3 hours", "4 hours"], answer: "1 hour" },
+      { q: "Which number is next in the sequence: 1, 1, 2, 3, 5, 8, ?", options: ["11", "13", "10", "12"], answer: "13" },
+      { q: "Which animal is a mammal?", options: ["Shark", "Dolphin", "Penguin", "Octopus"], answer: "Dolphin" },
+      { q: "Complete the analogy: Book is to Reading as Fork is to ?", options: ["Drawing", "Writing", "Stirring", "Eating"], answer: "Eating" },
+      { q: "How many sides does a hexagon have?", options: ["5", "6", "7", "8"], answer: "6" },
+      { q: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: "Mars" },
+      { q: "What is the capital of France?", options: ["Paris", "London", "Rome", "Berlin"], answer: "Paris" },
+      { q: "Which word does not belong: Dog, Cat, Fish, Car", options: ["Dog", "Cat", "Fish", "Car"], answer: "Car" },
+      { q: "How many hours in 3 days?", options: ["48", "36", "72", "24"], answer: "72" },
+      { q: "Which is heavier: 1 kg of feathers or 1 kg of bricks?", options: ["Feathers", "Bricks", "Equal", "Depends"], answer: "Equal" },
+      { q: "What is the square root of 81?", options: ["7", "8", "9", "10"], answer: "9" },
+    ];
+
+    const startBtn = document.getElementById('startBtn');
+    const quizForm = document.getElementById('quiz');
+    const questionsContainer = document.getElementById('questionsContainer');
+    const resultDiv = document.getElementById('result');
+
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      quizForm.style.display = 'block';
+      renderQuestions();
+    });
+
+    quizForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      let score = 0;
+      const formData = new FormData(quizForm);
+      questions.forEach((q, index) => {
+        if (formData.get('q' + index) === q.answer) {
+          score++;
+        }
+      });
+      quizForm.style.display = 'none';
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `<h2>You scored ${score} out of ${questions.length}.</h2>`;
+    });
+
+    function renderQuestions() {
+      questions.forEach((q, index) => {
+        const div = document.createElement('div');
+        div.classList.add('question');
+        div.innerHTML = `<h3>${index + 1}. ${q.q}</h3>` +
+          q.options.map(opt =>
+            `<label><input type="radio" name="q${index}" value="${opt}" required> ${opt}</label><br>`
+          ).join('');
+        questionsContainer.appendChild(div);
+      });
+    }
+  </script>
 </body>
 </html>
